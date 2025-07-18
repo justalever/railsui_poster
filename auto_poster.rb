@@ -11,23 +11,23 @@ class AutoPoster
     {
       type: :rails_tip,
       templates: [
-        "CONTENT_PLACEHOLDER\n\nJust used this pattern in my latest railsui.com component 🚀",
-        "Rails tip: CONTENT_PLACEHOLDER\n\nSaved me hours while building railsui.com templates",
+        "CONTENT_PLACEHOLDER\n\nJust used this pattern in my latest Rails UI component 🚀",
+        "Rails tip: CONTENT_PLACEHOLDER\n\nSaved me hours while building Rails UI templates",
         "CONTENT_PLACEHOLDER\n\nThis is why I love Rails development so much"
       ]
     },
     {
       type: :tailwind_tip,
       templates: [
-        "Tailwind discovery: CONTENT_PLACEHOLDER\n\nUsing this in all my railsui.com components now",
-        "CONTENT_PLACEHOLDER\n\nGame changer for my railsui.com design system"
+        "Tailwind discovery: CONTENT_PLACEHOLDER\n\nUsing this in all my Rails UI components now",
+        "CONTENT_PLACEHOLDER\n\nGame changer for my Rails UI design system"
       ]
     },
     {
       type: :ui_insight,
       templates: [
-        "UI realization: CONTENT_PLACEHOLDER\n\nChanged how I approach every railsui.com design",
-        "CONTENT_PLACEHOLDER\n\nThis thinking transformed my railsui.com components"
+        "UI realization: CONTENT_PLACEHOLDER\n\nChanged how I approach every Rails UI design",
+        "CONTENT_PLACEHOLDER\n\nThis thinking transformed my Rails UI components"
       ]
     },
     {
@@ -41,9 +41,25 @@ class AutoPoster
     {
       type: :rails_8_feature,
       templates: [
-        "Rails 8: CONTENT_PLACEHOLDER\n\nAlready loving this in my railsui.com setup",
-        "CONTENT_PLACEHOLDER\n\nRails 8 is changing how I build everything",
+        "Rails 8: CONTENT_PLACEHOLDER\n\nAlready loving this in my setup",
+        "CONTENT_PLACEHOLDER\n\nRails is changing how I build everything",
         "Rails 8 feature: CONTENT_PLACEHOLDER\n\nExactly what I needed"
+      ]
+    },
+    {
+      type: :stimulus_component,
+      templates: [
+        "CONTENT_PLACEHOLDER\n\nJust added this to the component library",
+        "Stimulus discovery: CONTENT_PLACEHOLDER\n\nMakes my Rails apps way more interactive",
+        "CONTENT_PLACEHOLDER\n\nThis railsui-stimulus component is becoming a favorite"
+      ]
+    },
+    {
+      type: :icon_gem,
+      templates: [
+        "CONTENT_PLACEHOLDER\n\nThe railsui_icon gem makes this so simple",
+        "Icon tip: CONTENT_PLACEHOLDER\n\nNo more SVG hunting",
+        "CONTENT_PLACEHOLDER\n\nWhy I love the railsui_icon gem"
       ]
     }
   ]
@@ -75,6 +91,18 @@ class AutoPoster
       "Rails 8's authentication generator creates secure auth in seconds",
       "Kamal deployment is a game changer. Docker to production in one command",
       "Rails 8's built-in rate limiting protects apps without external gems"
+    ],
+    stimulus_component: [
+      "Rails UI Stimulus clipboard component copies text with one click. No more custom JS",
+      "The modal component from railsui-stimulus handles focus trapping perfectly",
+      "Rails UI dropdown component beats writing custom JavaScript every time",
+      "Toast notifications with railsui-stimulus are dead simple to implement"
+    ],
+    icon_gem: [
+      "The railsui_icon gem renders heroicons inline. No more asset pipeline headaches",
+      "Love variant support in railsui_icon. Solid, outline, mini, micro all work",
+      "Custom icon paths in railsui_icon let you use your own SVGs easily",
+      "Default classes in railsui_icon save me so many keystrokes"
     ]
   }
 
@@ -88,40 +116,55 @@ class AutoPoster
 
     building_public: "Share an honest moment from building your product. Be vulnerable about mistakes or surprises. Avoid startup clichés. Sound tired but determined. Under 180 chars. Examples: 'Spent 3 days on perfect animations. Users care more about fast load times', 'Thought my feature was brilliant. 5 users tested it. 5 users confused by it', 'Shipped a broken search. Fixed it in 2 hours. Nobody even noticed'",
 
-    rails_8_feature: "Share excitement about Rails 8 like you just tried something new. Be specific about your setup or what changed. Avoid hype words. Sound like you're recommending to a friend. Under 180 chars. Examples: 'Tried Solid Queue today. Deleted my Redis config. One less thing to worry about', 'Rails 8 auth is stupid simple. Generated working login in 30 seconds', 'Kamal deployed my app faster than I deploy to Heroku. Wild'"
+    rails_8_feature: "Share excitement about Rails 8 like you just tried something new. Be specific about your setup or what changed. Avoid hype words. Sound like you're recommending to a friend. Under 180 chars. Examples: 'Tried Solid Queue today. Deleted my Redis config. One less thing to worry about', 'Rails 8 auth is stupid simple. Generated working login in 30 seconds', 'Kamal deployed my app faster than I deploy to Heroku. Wild'",
+
+    stimulus_component: "Share excitement about a RailsUI Stimulus component like you just used it. Be specific about which component (clipboard, modal, dropdown, toast, etc.) and what problem it solved. Sound like you're recommending to a dev friend. Under 180 chars. Examples: 'Used the Rails UI modal component. Focus trapping just works', 'Rails UI clipboard component saved me writing custom copy code', 'Their dropdown handles keyboard nav perfectly'",
+
+    icon_gem: "Share a tip about the RailsUI Icon gem like you just discovered something useful. Be specific about heroicons, variants, or custom paths. Sound like you're sharing a quick win. Under 180 chars. Examples: 'RailsUI Icon gem renders heroicons inline. No more asset hassles', 'Love the variant support. Solid, outline, mini, micro all work', 'Custom icon paths let me use my own SVGs easily'"
   }
 
   AI_RESPONSE_TEMPLATES = {
     rails_tip: [
-      "AI_CONTENT_PLACEHOLDER\n\nJust tried this on railsui.com. Works like a charm",
+      "AI_CONTENT_PLACEHOLDER\n\nJust tried this on Rails UI. Works like a charm",
       "TIL: AI_CONTENT_PLACEHOLDER\n\nWish I knew this months ago",
       "AI_CONTENT_PLACEHOLDER\n\nThis is why I love Rails so much",
-      "AI_CONTENT_PLACEHOLDER\n\nAlready using this everywhere in railsui.com",
+      "AI_CONTENT_PLACEHOLDER\n\nAlready using this everywhere in Rails UI",
       "AI_CONTENT_PLACEHOLDER\n\nMy new favorite Rails trick"
     ],
     tailwind_tip: [
-      "AI_CONTENT_PLACEHOLDER\n\nUsing this in all my railsui.com components now",
+      "AI_CONTENT_PLACEHOLDER\n\nUsing this in all my Rails UI components now",
       "AI_CONTENT_PLACEHOLDER\n\nMakes my CSS so much cleaner",
-      "AI_CONTENT_PLACEHOLDER\n\nWhy didn't I think of this earlier?",
-      "AI_CONTENT_PLACEHOLDER\n\nThis combo makes railsui.com components look way better ✨"
+      "AI_CONTENT_PLACEHOLDER\n\nThis combo makes components look way better ✨"
     ],
     ui_insight: [
-      "AI_CONTENT_PLACEHOLDER\n\nChanged how I approach every railsui.com design",
+      "AI_CONTENT_PLACEHOLDER\n\nChanged how I approach every Rails UI design",
       "AI_CONTENT_PLACEHOLDER\n\nThis thinking transformed my components",
-      "AI_CONTENT_PLACEHOLDER\n\nLearned this building railsui.com",
+      "AI_CONTENT_PLACEHOLDER\n\nLearned this building Rails UI",
       "AI_CONTENT_PLACEHOLDER\n\nWhy I rebuilt half my design system"
     ],
     building_public: [
-      "Building railsui.com: AI_CONTENT_PLACEHOLDER",
+      "Building Rails UI: AI_CONTENT_PLACEHOLDER",
       "AI_CONTENT_PLACEHOLDER\n\nThe reality of shipping solo 🛠️",
       "AI_CONTENT_PLACEHOLDER\n\nLearned this the hard way",
       "AI_CONTENT_PLACEHOLDER\n\nNo one warns you about this part"
     ],
     rails_8_feature: [
-      "AI_CONTENT_PLACEHOLDER\n\nLoving this in my railsui.com setup",
-      "AI_CONTENT_PLACEHOLDER\n\nRails 8 is wild",
+      "AI_CONTENT_PLACEHOLDER\n\nLoving this in my Rails UI setup",
+      "AI_CONTENT_PLACEHOLDER\n\nRails is wild",
       "AI_CONTENT_PLACEHOLDER\n\nThis is exactly what I needed",
-      "AI_CONTENT_PLACEHOLDER\n\nWhy I'm excited about Rails 8"
+      "AI_CONTENT_PLACEHOLDER\n\nWhy I'm excited about Rails"
+    ],
+    stimulus_component: [
+      "AI_CONTENT_PLACEHOLDER\n\nRails UI Stimulus components are so well built",
+      "AI_CONTENT_PLACEHOLDER\n\nNo more writing custom JavaScript for this",
+      "AI_CONTENT_PLACEHOLDER\n\nThis railsui-stimulus component is perfect",
+      "AI_CONTENT_PLACEHOLDER\n\nSaved me hours of JavaScript debugging"
+    ],
+    icon_gem: [
+      "AI_CONTENT_PLACEHOLDER\n\nRailsUI Icon gem makes this trivial",
+      "AI_CONTENT_PLACEHOLDER\n\nNo more SVG hunting for icons",
+      "AI_CONTENT_PLACEHOLDER\n\nHeroicons integration is seamless",
+      "AI_CONTENT_PLACEHOLDER\n\nWhy I love the railsui_icon gem"
     ]
   }
 
@@ -170,7 +213,7 @@ class AutoPoster
           messages: [
             {
               role: "system",
-              content: "You are a tired but passionate Rails developer sharing quick thoughts with other devs. Write like you're texting a friend, not writing marketing copy. Use simple words. Be specific about actual problems you solved. Avoid: 'game changer', 'leverage', 'seamless', 'streamline', 'elevate', 'boost', 'harness', 'unlock', 'empower', 'robust', 'scalable', 'cutting-edge'. Include mild frustration or excitement about concrete things. Sound human, not like an AI trying to sound human."
+              content: "You are a tired but passionate Rails developer sharing quick thoughts with other devs. Write like you're texting a friend, not writing marketing copy. Use simple words. Be specific about actual problems you solved. Avoid: 'game changer', 'leverage', 'seamless', 'streamline', 'elevate', 'boost', 'harness', 'unlock', 'empower', 'robust', 'scalable', 'cutting-edge'. Include mild frustration or excitement about concrete things. Sound human, not like an AI trying to sound human. Avoid emojis or being annoying with punctuation."
             },
             {
               role: "user",

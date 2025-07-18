@@ -1,6 +1,6 @@
 # RailsUI Auto Poster
 
-An automated Twitter/X posting bot that shares Rails, Tailwind, and UI development insights. Built specifically for promoting RailsUI components with authentic, first-person developer experiences.
+An automated Twitter/X posting bot that shares Rails, Tailwind, and UI development insights. Built specifically for promoting the entire RailsUI ecosystem - including RailsUI components, Stimulus components, and the Icon gem - with authentic, first-person developer experiences.
 
 ## Features
 
@@ -20,6 +20,8 @@ An automated Twitter/X posting bot that shares Rails, Tailwind, and UI developme
 3. **UI Insights**: Design principles, UX patterns, and interface wisdom
 4. **Building Public**: Solo dev experiences, product lessons, and startup truths
 5. **Rails 8 Features**: Solid Queue, Kamal, Propshaft, and new Rails 8 capabilities
+6. **Stimulus Components**: RailsUI Stimulus components (modals, dropdowns, toasts, etc.)
+7. **Icon Gem**: RailsUI Icon gem tips, heroicons, and SVG rendering
 
 ## Quick Start
 
