@@ -5,7 +5,8 @@ An automated Twitter/X posting bot that shares Rails, Tailwind, and UI developme
 ## Features
 
 - 🤖 **Smart Timing**: Posts 1-2 times per week automatically
-- 📝 **100+ Tweets**: Varied content across 5 categories
+- 🧠 **AI-Generated Content**: Dynamic, contextual tweets using OpenAI
+- 📝 **100+ Fallback Tweets**: Curated content when AI is unavailable
 - 🚀 **Rails 8 Compatible**: Latest Rails features and patterns
 - 👤 **Human Voice**: First-person, authentic developer experiences
 - 🔒 **Safe Demo Mode**: Test content without posting
@@ -74,6 +75,7 @@ Go to your repository on GitHub:
 | `X_API_KEY_SECRET` | Your Twitter API Key Secret |
 | `X_ACCESS_TOKEN` | Your Twitter Access Token |
 | `X_ACCESS_TOKEN_SECRET` | Your Twitter Access Token Secret |
+| `OPENAI_API_KEY` | Your OpenAI API Key (optional) |
 
 ### 2. Enable Actions
 
@@ -102,6 +104,9 @@ ruby auto_poster.rb status
 # Actually post (only if it's time)
 ruby auto_poster.rb post
 
+# Test AI content generation
+ruby auto_poster.rb test-ai
+
 # Show help
 ruby auto_poster.rb
 ```
@@ -110,6 +115,8 @@ ruby auto_poster.rb
 
 Once set up, the bot will:
 - Run twice daily at 9 AM and 5 PM UTC
+- Generate fresh content using AI (if OpenAI API key provided)
+- Fall back to curated content if AI is unavailable
 - Only post if it's been 3-7 days since last post
 - Track timing in `posting_schedule.json`
 - Log all posts in `posted_content.log`
@@ -121,9 +128,24 @@ Once set up, the bot will:
 - **Frequency**: 1-2 times per week on average
 - **Probability**: Increases over time between min/max days
 
+## How It Works
+
+### AI-Generated Content (Default)
+When an OpenAI API key is provided, the bot:
+1. Selects a random content type (Rails tips, Tailwind tips, etc.)
+2. Uses AI to generate fresh, contextual content
+3. Applies a template to format the content with railsui.com branding
+4. Ensures the tweet is under 280 characters
+
+### Fallback Content
+When no OpenAI API key is provided:
+1. Uses curated, pre-written content from the fallback bank
+2. Applies the same template formatting
+3. Ensures consistent quality and voice
+
 ## Files
 
-- `auto_poster.rb` - Main bot script
+- `auto_poster.rb` - Main bot script with AI integration
 - `posting_schedule.json` - Tracks last post time (auto-created)
 - `posted_content.log` - Logs all posted content (auto-created)
 - `.github/workflows/auto_poster.yml` - GitHub Actions workflow
@@ -185,9 +207,16 @@ max_days = 1
 
 ### API Errors
 
+**Twitter API:**
 1. Verify your Twitter API credentials are correct
 2. Ensure your Twitter developer app has write permissions
 3. Check that your access tokens aren't expired
+
+**OpenAI API:**
+1. Verify your OpenAI API key is correct
+2. Ensure you have sufficient credits in your OpenAI account
+3. Check that your API key has the necessary permissions
+4. If AI fails, the bot will automatically fall back to preset content
 
 ### Rate Limiting
 
@@ -206,6 +235,9 @@ nano .env
 
 # Test without posting
 ruby auto_poster.rb demo
+
+# Test AI content generation
+ruby auto_poster.rb test-ai
 ```
 
 ### Testing
@@ -216,6 +248,9 @@ ruby auto_poster.rb demo
 
 # Check timing and status
 ruby auto_poster.rb status
+
+# Test AI generation for all content types
+ruby auto_poster.rb test-ai
 ```
 
 ## Security

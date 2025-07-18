@@ -3,175 +3,97 @@ require 'x'
 require 'dotenv/load'
 require 'json'
 require 'time'
+require 'openai'
 
 class AutoPoster
-  CONTENT_TEMPLATES = [
+  # Fallback content templates (used if AI fails)
+  FALLBACK_TEMPLATES = [
     {
       type: :rails_tip,
       templates: [
         "CONTENT_PLACEHOLDER\n\nJust used this pattern in my latest railsui.com component 🚀",
         "Rails tip: CONTENT_PLACEHOLDER\n\nSaved me hours while building railsui.com templates",
-        "CONTENT_PLACEHOLDER\n\nThis is why I love Rails development so much",
-        "Found this gem: CONTENT_PLACEHOLDER\n\nWish I knew this sooner for railsui.com",
-        "CONTENT_PLACEHOLDER\n\nMy go-to pattern for every railsui.com component now"
+        "CONTENT_PLACEHOLDER\n\nThis is why I love Rails development so much"
       ]
     },
     {
       type: :tailwind_tip,
       templates: [
         "Tailwind discovery: CONTENT_PLACEHOLDER\n\nUsing this in all my railsui.com components now",
-        "CONTENT_PLACEHOLDER\n\nGame changer for my railsui.com design system",
-        "CSS moment: CONTENT_PLACEHOLDER\n\nWhy didn't I know this earlier?",
-        "CONTENT_PLACEHOLDER\n\nThis combo makes railsui.com components so much cleaner ✨",
-        "Tailwind tip: CONTENT_PLACEHOLDER\n\nMy new favorite pattern"
+        "CONTENT_PLACEHOLDER\n\nGame changer for my railsui.com design system"
       ]
     },
     {
       type: :ui_insight,
       templates: [
         "UI realization: CONTENT_PLACEHOLDER\n\nChanged how I approach every railsui.com design",
-        "CONTENT_PLACEHOLDER\n\nThis thinking transformed my railsui.com components",
-        "Design truth: CONTENT_PLACEHOLDER\n\nLearned this the hard way",
-        "CONTENT_PLACEHOLDER\n\nWhy I rebuilt half of railsui.com with this principle",
-        "UX insight: CONTENT_PLACEHOLDER\n\nMy biggest design lesson this year"
-      ]
-    },
-    {
-      type: :building_public,
-      templates: [
-        "Building railsui.com: CONTENT_PLACEHOLDER",
-        "CONTENT_PLACEHOLDER\n\nThe reality of shipping products as a solo dev 🛠️",
-        "Product lesson: CONTENT_PLACEHOLDER\n\nLearned this building railsui.com",
-        "CONTENT_PLACEHOLDER\n\nWhy railsui.com took me longer than expected",
-        "Startup truth: CONTENT_PLACEHOLDER\n\nNo one talks about this part"
-      ]
-    },
-    {
-      type: :rails_8_feature,
-      templates: [
-        "Rails 8: CONTENT_PLACEHOLDER\n\nAlready loving this in my railsui.com setup",
-        "CONTENT_PLACEHOLDER\n\nRails 8 is changing how I build everything",
-        "Rails 8 gem: CONTENT_PLACEHOLDER\n\nThis is exactly what I needed",
-        "CONTENT_PLACEHOLDER\n\nWhy I'm excited about Rails 8 for railsui.com",
-        "Rails 8 feature: CONTENT_PLACEHOLDER\n\nSimplifying my stack"
+        "CONTENT_PLACEHOLDER\n\nThis thinking transformed my railsui.com components"
       ]
     }
   ]
 
-  CONTENT_BANK = {
+  FALLBACK_CONTENT = {
     rails_tip: [
-      "Rails 8's authentication generator creates a complete auth system in seconds. No more Devise setup headaches",
+      "Rails 8's authentication generator creates a complete auth system in seconds",
       "Use `&.` safe navigation everywhere. `@user&.name` is cleaner than checking nil first",
-      "Turbo 8 morphing makes page updates feel instant. Set `data-turbo-action='morph'` on your links",
-      "Rails 8 defaults to Propshaft. Way faster than Sprockets and handles modern JS better",
-      "Use `rails db:seed:replant` to refresh seeds without dropping tables. Saves me daily",
-      "Stimulus controllers auto-register from `app/javascript/controllers/`. No more manual imports",
-      "Rails 8's `allow_browser` helper blocks old browsers automatically. Set it and forget it",
-      "Use `delegate` to clean up models. `delegate :name, to: :user` beats writing methods",
-      "Turbo Streams can update multiple elements from one action. Changed my whole approach",
-      "Rails 8's rate limiting is built-in now. `rate_limit to: 10, within: 1.minute` done",
-      "Use `content_for` to inject CSS/JS only when partials render. Keeps pages clean",
-      "Rails 8's queue adapter defaults to Solid Queue. Background jobs without Redis",
-      "ActiveRecord `includes` prevents N+1 queries. Always preload what you'll use",
-      "Use `form_with local: false` for AJAX forms. Turbo handles the rest beautifully",
-      "Rails 8's cable adapter uses Solid Cable. Real-time features without external deps",
-      "Use `rails credentials:edit` for all secrets. Never commit API keys again",
-      "Rails 8's cache store defaults to Solid Cache. File-based caching that actually works",
-      "Stimulus `data-action` accepts multiple events: `click->ctrl#save keyup->ctrl#validate`",
-      "Use `before_action :authenticate_user!` with Rails 8 auth. Simple and secure",
-      "Rails 8's deployment story with Kamal is incredible. Docker to production in minutes"
+      "Turbo 8 morphing makes page updates feel instant. Set `data-turbo-action='morph'` on your links"
     ],
-
     tailwind_tip: [
       "Use `space-y-4` instead of individual margins. Consistent spacing with zero effort",
       "Combine `flex items-center justify-between` for perfect header layouts every time",
-      "Use `prose max-w-none` for blog content. Beautiful typography instantly",
-      "Group hover states: `group-hover:text-blue-500` lets parents control children",
-      "Use `aspect-square` for consistent image ratios. No more padding-bottom hacks",
-      "Grid magic: `grid-cols-1 md:grid-cols-2 lg:grid-cols-3` for responsive layouts",
-      "Use `ring-2 ring-blue-500` for focus states. Looks way better than borders",
-      "Arbitrary values work: `top-[13px]` when you need pixel-perfect positioning",
-      "Use `text-balance` for headlines. Prevents awkward line breaks",
-      "Combine `backdrop-blur-sm bg-white/80` for modern glass effects",
-      "Use `has-[:checked]:bg-blue-500` for parent styling based on child state",
-      "Negative margins: `-mt-8` to pull elements into previous sections",
-      "Use `peer` classes for sibling styling. Input focus affects adjacent labels",
-      "Combine `shadow-sm shadow-black/5` for subtle, modern shadows",
-      "Use `size-6` instead of `w-6 h-6`. Cleaner for square elements",
-      "Container queries: `@container (min-width: 20rem)` for component-based responsive design",
-      "Use `scroll-smooth` on html for butter-smooth anchor scrolling",
-      "Combine `border-0 ring-1 ring-gray-300` for modern input styling",
-      "Use `text-pretty` for better paragraph line breaks than `text-balance`",
-      "Gradient text: `bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent`"
+      "Use `prose max-w-none` for blog content. Beautiful typography instantly"
     ],
-
     ui_insight: [
       "White space isn't empty space. It's a design element that guides attention",
       "Users scan in F-patterns. Put important stuff top-left and down the left edge",
-      "Consistent spacing creates visual rhythm. Stick to multiples of 4 or 8",
-      "Color has psychology. Red doesn't always mean danger, green doesn't always mean success",
-      "Loading states prevent perceived slowness. Show something immediately",
-      "Form errors should appear inline, not in separate alert boxes",
-      "Dark mode needs its own design system. It's not just inverted colors",
-      "Every icon should have a purpose. Decorative icons just add noise",
-      "Typography hierarchy should be obvious. H1 > H2 > H3 needs visual weight",
-      "Hover states provide essential feedback. Every clickable thing needs them",
-      "Mobile-first forces you to prioritize. Desktop becomes the enhancement",
-      "Empty states are UX opportunities. Tell users what to do next",
-      "Micro-interactions add personality. Subtle animations make interfaces alive",
-      "Consistent button styles build trust. Users learn your patterns",
-      "Accessibility benefits everyone. Good contrast and keyboard nav aren't optional",
-      "Progressive disclosure reduces cognitive load. Don't show everything at once",
-      "Familiar patterns reduce learning curves. Don't reinvent common interactions",
-      "Visual feedback confirms actions. Users need to know their click registered",
-      "Information architecture beats pretty design. Users need to find stuff first",
-      "Performance is a feature. Fast beats beautiful every time"
-    ],
+      "Loading states prevent perceived slowness. Show something immediately"
+    ]
+  }
 
+  # AI prompts for different content types
+  AI_PROMPTS = {
+    rails_tip: "You are a Rails developer building railsui.com. Write a short, practical Rails tip in first person. Focus on Rails 8 features, development patterns, or time-saving techniques. Keep it under 200 chars. Sound like a real developer sharing something they just discovered. Examples: 'Rails 8's Solid Queue eliminates Redis for background jobs', 'Use `&.` safe navigation everywhere', 'Turbo 8 morphing makes updates feel instant'",
+
+    tailwind_tip: "You are a developer building railsui.com components. Write a short, practical Tailwind CSS tip in first person. Focus on utility classes, responsive design, or modern CSS patterns. Keep it under 200 chars. Sound like a real developer sharing a discovery. Examples: 'Use `space-y-4` instead of individual margins', 'Combine `flex items-center justify-between` for perfect layouts', 'Use `prose max-w-none` for blog content'",
+
+    ui_insight: "You are a developer building railsui.com. Write a short UI/UX insight in first person. Focus on design principles, user behavior, or interface patterns. Keep it under 200 chars. Sound like a real developer sharing a realization. Examples: 'White space isn't empty space. It's a design element', 'Users scan in F-patterns', 'Loading states prevent perceived slowness'",
+
+    building_public: "You are a solo developer building railsui.com. Write a short insight about building products in public in first person. Focus on honest experiences, lessons learned, or startup realities. Keep it under 200 chars. Sound authentic and human. Examples: 'Spent 4 hours perfecting a button component. Details compound', 'User feedback beats my assumptions every time', 'Shipping broken beats perfect unshipped'",
+
+    rails_8_feature: "You are a Rails developer excited about Rails 8. Write a short insight about a Rails 8 feature in first person. Focus on Solid Queue, Kamal, Propshaft, built-in auth, or other Rails 8 improvements. Keep it under 200 chars. Sound like a developer who's actually using these features. Examples: 'Solid Queue eliminates Redis for background jobs', 'Kamal deployment is a game changer', 'Rails 8's authentication generator creates secure auth in seconds'"
+  }
+
+  AI_RESPONSE_TEMPLATES = {
+    rails_tip: [
+      "AI_CONTENT_PLACEHOLDER\n\nJust implemented this in my railsui.com setup 🚀",
+      "Rails discovery: AI_CONTENT_PLACEHOLDER\n\nWish I knew this sooner for railsui.com",
+      "AI_CONTENT_PLACEHOLDER\n\nThis is why I love Rails 8 development",
+      "Found this gem: AI_CONTENT_PLACEHOLDER\n\nAlready using it in railsui.com",
+      "AI_CONTENT_PLACEHOLDER\n\nMy new go-to pattern"
+    ],
+    tailwind_tip: [
+      "CSS realization: AI_CONTENT_PLACEHOLDER\n\nUsing this in all my railsui.com components now",
+      "AI_CONTENT_PLACEHOLDER\n\nGame changer for my design system",
+      "Tailwind moment: AI_CONTENT_PLACEHOLDER\n\nWhy didn't I know this earlier?",
+      "AI_CONTENT_PLACEHOLDER\n\nThis combo makes railsui.com components so much cleaner ✨"
+    ],
+    ui_insight: [
+      "UX insight: AI_CONTENT_PLACEHOLDER\n\nChanged how I approach every railsui.com design",
+      "AI_CONTENT_PLACEHOLDER\n\nThis thinking transformed my components",
+      "Design truth: AI_CONTENT_PLACEHOLDER\n\nLearned this building railsui.com",
+      "AI_CONTENT_PLACEHOLDER\n\nWhy I rebuilt half my design system"
+    ],
     building_public: [
-      "Spent 4 hours perfecting a button component. Sounds crazy but details compound",
-      "User feedback beats my assumptions every single time. Always test ideas first",
-      "Shipping incomplete features taught me more than planning perfect ones",
-      "Documentation is a feature. If users can't figure it out, it doesn't exist",
-      "Performance matters more than features. Fast and simple wins every time",
-      "Consistency is harder than innovation. Matching patterns takes real discipline",
-      "Real users find edge cases I never imagined. Every. Single. Time",
-      "Refactoring is product work. Clean code means faster feature development",
-      "Testing with 5 users reveals 90% of usability issues. Don't skip this",
-      "Small improvements compound into big wins. Iterations beat revolutions",
-      "My favorite feature is usually not the users' favorite. Ego check needed",
-      "Shipping broken beats perfect unshipped. You can't improve what's not live",
-      "Automated tests save sanity. Manual testing burns out the whole team",
-      "Mobile-first isn't optional anymore. Most traffic comes from phones",
-      "Simple onboarding beats complex features. First impressions are everything",
-      "Building in public keeps me accountable. Harder to quit when people watch",
-      "Solo development is lonely. Twitter became my rubber duck debugging partner",
-      "Perfectionism is the enemy of progress. Good enough shipped beats perfect planned",
-      "Revenue validates ideas better than compliments. Money talks loudest",
-      "Burnout is real. Taking breaks actually speeds up development long-term"
+      "Building railsui.com: AI_CONTENT_PLACEHOLDER",
+      "AI_CONTENT_PLACEHOLDER\n\nThe reality of shipping as a solo dev 🛠️",
+      "Product lesson: AI_CONTENT_PLACEHOLDER\n\nLearned this the hard way",
+      "AI_CONTENT_PLACEHOLDER\n\nNo one talks about this part of building"
     ],
-
     rails_8_feature: [
-      "Solid Queue eliminates Redis for background jobs. One less service to manage",
-      "Solid Cable makes WebSockets work without external dependencies. Real-time features simplified",
-      "Solid Cache uses SQLite for caching. Fast, reliable, and no Redis needed",
-      "Kamal deployment is a game changer. Docker to production in one command",
-      "Propshaft asset pipeline is blazing fast. Goodbye Sprockets compilation wait",
-      "Built-in authentication generator creates secure auth in seconds. No more Devise complexity",
-      "Rails 8 defaults are production-ready. Less configuration, more building",
-      "Allow browser helper blocks old browsers automatically. Progressive enhancement built-in",
-      "Rate limiting is now built-in. Protect your app without external gems",
-      "Turbo 8 morphing makes updates feel instant. Page changes without full reloads",
-      "Rails 8's job queues are database-backed. Simpler deployment, fewer moving parts",
-      "Stimulus improvements make JavaScript feel native. Rails and JS playing nicely",
-      "Rails 8's caching story is complete. Fast apps without Redis complexity",
-      "Action Cable improvements make real-time features actually reliable",
-      "Rails 8's deployment pipeline is chef's kiss. From code to production seamlessly",
-      "Thruster HTTP/2 proxy comes built-in. Fast static assets without nginx config",
-      "Rails 8's authentication is secure by default. No more rolling your own crypto",
-      "Solid adapters work everywhere. SQLite scales further than people think",
-      "Rails 8's job processing is rock solid. Background work without the headaches",
-      "Kamal + Rails 8 = deployment nirvana. Docker deployment without the Docker complexity"
+      "Rails 8: AI_CONTENT_PLACEHOLDER\n\nAlready loving this in my railsui.com setup",
+      "AI_CONTENT_PLACEHOLDER\n\nRails 8 is changing how I build everything",
+      "Rails 8 gem: AI_CONTENT_PLACEHOLDER\n\nExactly what I needed",
+      "AI_CONTENT_PLACEHOLDER\n\nWhy I'm excited about Rails 8"
     ]
   }
 
@@ -188,6 +110,14 @@ class AutoPoster
 
     @client = X::Client.new(**x_credentials)
     @timing_data = load_timing_data
+
+    # Initialize OpenAI client
+    if ENV['OPENAI_API_KEY']
+      @openai_client = OpenAI::Client.new(access_token: ENV['OPENAI_API_KEY'])
+    else
+      puts "⚠️  No OpenAI API key found. Using fallback content only."
+      @openai_client = nil
+    end
   end
 
   def load_timing_data
@@ -202,21 +132,82 @@ class AutoPoster
     File.write(TIMING_FILE, JSON.pretty_generate(@timing_data))
   end
 
-  def generate_post
-    content_type = CONTENT_BANK.keys.sample
-    template_group = CONTENT_TEMPLATES.find { |t| t[:type] == content_type }
-    template = template_group[:templates].sample
-    content = CONTENT_BANK[content_type].sample
+  def generate_ai_content(content_type)
+    return nil unless @openai_client
 
-    formatted_post = template.gsub('CONTENT_PLACEHOLDER', content)
+    begin
+      response = @openai_client.chat(
+        parameters: {
+          model: "gpt-4o-mini",
+          messages: [
+            {
+              role: "system",
+              content: "You are an experienced Rails developer who builds and shares practical development insights. Always respond in first person with authentic developer voice. Be concise, practical, and enthusiastic about Rails 8 and modern web development."
+            },
+            {
+              role: "user",
+              content: AI_PROMPTS[content_type]
+            }
+          ],
+          max_tokens: 100,
+          temperature: 0.8
+        }
+      )
+
+      content = response.dig("choices", 0, "message", "content")&.strip
+
+      # Clean up the content
+      content = content.gsub(/^["']|["']$/, '') if content # Remove quotes
+      content = content.gsub(/\n+/, ' ') if content # Remove newlines
+
+      content
+    rescue => e
+      puts "⚠️  AI generation failed: #{e.message}"
+      nil
+    end
+  end
+
+  def generate_post
+    # Choose content type
+    content_type = AI_RESPONSE_TEMPLATES.keys.sample
+
+    # Try AI generation first
+    ai_content = generate_ai_content(content_type)
+
+    if ai_content && !ai_content.empty?
+      # Use AI-generated content
+      template = AI_RESPONSE_TEMPLATES[content_type].sample
+      formatted_post = template.gsub('AI_CONTENT_PLACEHOLDER', ai_content)
+      source = "AI"
+    else
+      # Fall back to preset content
+      template_group = FALLBACK_TEMPLATES.find { |t| t[:type] == content_type }
+      if template_group
+        template = template_group[:templates].sample
+        content = FALLBACK_CONTENT[content_type].sample
+        formatted_post = template.gsub('CONTENT_PLACEHOLDER', content)
+        source = "Fallback"
+      else
+        formatted_post = "Rails 8 is amazing for building modern web apps!\n\nLiving it at railsui.com 🚀"
+        source = "Default"
+      end
+    end
 
     # Ensure tweet is under 280 characters
     if formatted_post.length > 280
+      # Trim content while preserving the template structure
       excess = formatted_post.length - 277
-      content = content[0..-(excess + 4)] + "..."
-      formatted_post = template.gsub('CONTENT_PLACEHOLDER', content)
+      lines = formatted_post.split("\n")
+      if lines.length > 1
+        # Trim the first line (usually the content)
+        lines[0] = lines[0][0..-(excess + 4)] + "..."
+        formatted_post = lines.join("\n")
+      else
+        formatted_post = formatted_post[0..276] + "..."
+      end
     end
 
+    puts "📝 Generated using: #{source}" if ENV['DEBUG']
     formatted_post
   end
 
@@ -285,6 +276,7 @@ class AutoPoster
     puts "=" * 50
     puts "Character count: #{content.length}/280"
     puts "Time to post: #{time_to_post? ? 'YES' : 'NO'}"
+    puts "AI available: #{@openai_client ? 'YES' : 'NO (using fallback content)'}"
 
     if @timing_data['last_posted_at']
       last_posted = Time.parse(@timing_data['last_posted_at'])
@@ -310,8 +302,29 @@ class AutoPoster
       puts "Ready to post: YES (first time)"
     end
 
-    puts "Content types: #{CONTENT_BANK.keys.join(', ')}"
-    puts "Total content items: #{CONTENT_BANK.values.flatten.length}"
+    puts "AI available: #{@openai_client ? 'YES' : 'NO (using fallback content)'}"
+    puts "Content types: #{AI_RESPONSE_TEMPLATES.keys.join(', ')}"
+    puts "Fallback content items: #{FALLBACK_CONTENT.values.flatten.length}"
+  end
+
+  def test_ai
+    puts "🤖 Testing AI content generation:"
+    puts "=" * 40
+
+    AI_PROMPTS.each do |type, prompt|
+      puts "\n#{type.to_s.upcase}:"
+      puts "Prompt: #{prompt[0..100]}..."
+
+      ai_content = generate_ai_content(type)
+      if ai_content
+        template = AI_RESPONSE_TEMPLATES[type].sample
+        formatted = template.gsub('AI_CONTENT_PLACEHOLDER', ai_content)
+        puts "Generated: #{formatted}"
+        puts "Length: #{formatted.length}/280"
+      else
+        puts "❌ Failed to generate AI content"
+      end
+    end
   end
 end
 
@@ -326,11 +339,14 @@ if __FILE__ == $0
     poster.status
   when 'post'
     poster.post_to_x
+  when 'test-ai'
+    poster.test_ai
   else
     puts "Usage:"
-    puts "  ruby auto_poster.rb demo    # Show what would be posted"
-    puts "  ruby auto_poster.rb status  # Show posting status"
-    puts "  ruby auto_poster.rb post    # Post if it's time"
+    puts "  ruby auto_poster.rb demo     # Show what would be posted"
+    puts "  ruby auto_poster.rb status   # Show posting status"
+    puts "  ruby auto_poster.rb post     # Post if it's time"
+    puts "  ruby auto_poster.rb test-ai  # Test AI generation"
     puts ""
     puts "Running demo by default..."
     poster.demo_run
