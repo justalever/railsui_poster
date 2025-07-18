@@ -19,8 +19,8 @@ class AutoPoster
     {
       type: :tailwind_tip,
       templates: [
-        "Tailwind discovery: CONTENT_PLACEHOLDER\n\nUsing this in all my Rails UI components now",
-        "CONTENT_PLACEHOLDER\n\nGame changer for my Rails UI design system"
+        "CONTENT_PLACEHOLDER\n\nUsing this in many components now",
+        "CONTENT_PLACEHOLDER\n\nGame changer for Rails UI"
       ]
     },
     {
@@ -71,9 +71,10 @@ class AutoPoster
       "Turbo 8 morphing makes page updates feel instant. Set `data-turbo-action='morph'` on your links"
     ],
     tailwind_tip: [
-      "Use `space-y-4` instead of individual margins. Consistent spacing with zero effort",
-      "Combine `flex items-center justify-between` for perfect header layouts every time",
-      "Use `prose max-w-none` for blog content. Beautiful typography instantly"
+      "Tailwind v4 container queries are perfect for responsive components. `@container (min-width: 20rem)` beats media queries",
+      "New `size-*` utilities in v4 are cleaner than `w-* h-*` for square elements",
+      "Tailwind v4's CSS-first approach eliminates config file bloat. Just write CSS",
+      "Modern `text-wrap: balance` for headlines prevents awkward line breaks in v4"
     ],
     ui_insight: [
       "White space isn't empty space. It's a design element that guides attention",
@@ -93,78 +94,93 @@ class AutoPoster
       "Rails 8's built-in rate limiting protects apps without external gems"
     ],
     stimulus_component: [
-      "Rails UI Stimulus clipboard component copies text with one click. No more custom JS",
+      "RailsUI Stimulus clipboard component copies text with one click. No more custom JS",
       "The modal component from railsui-stimulus handles focus trapping perfectly",
-      "Rails UI dropdown component beats writing custom JavaScript every time",
+      "RailsUI dropdown component beats writing custom JavaScript every time",
       "Toast notifications with railsui-stimulus are dead simple to implement"
     ],
     icon_gem: [
-      "The railsui_icon gem renders heroicons inline. No more asset pipeline headaches",
-      "Love variant support in railsui_icon. Solid, outline, mini, micro all work",
-      "Custom icon paths in railsui_icon let you use your own SVGs easily",
-      "Default classes in railsui_icon save me so many keystrokes"
+      "railsui_icon gem renders heroicons inline. No more asset pipeline headaches",
+      "Love the variant support in railsui_icon. Solid, outline, mini, micro all work",
+      "Custom icon paths in railsui_icon let me use my own SVGs easily",
+      "Default classes in railsui_icon save me from repeating Tailwind v4 utilities"
     ]
   }
 
   # AI prompts for different content types
   AI_PROMPTS = {
-    rails_tip: "Write a casual Rails tip like you're texting a dev friend. Be specific about a real problem you solved. Avoid: 'game changer', 'boost', 'leverage', 'seamless', 'streamline', 'elevate'. Use simple words. Sound frustrated or excited about something concrete. Under 180 chars. Examples: 'Spent 2 hours debugging N+1 queries. `includes` fixed it instantly', 'Rails 8 auth generator saved my weekend. No more Devise config hell', 'Finally figured out Turbo morphing. My forms feel snappy now'",
+    rails_tip: "Write a complete tweet about a Rails tip like you're sharing with dev friends. Be specific about a real problem you solved. Naturally mention Rails UI if relevant. Avoid: 'game changer', 'boost', 'leverage', 'seamless', 'streamline', 'elevate'. Use simple words. Sound frustrated or excited about something concrete. Under 200 chars. Examples: 'Spent hours debugging N+1 queries. `includes` fixed it instantly.', 'Rails 8 auth generator saved my weekend. No more Devise config hell', 'Finally figured out Turbo morphing. Forms feeling quite snappy now'",
 
-    tailwind_tip: "Write a Tailwind tip like you just discovered something cool while coding. Be specific about what you were building. Avoid marketing speak. Sound like you're sharing a quick win. Under 180 chars. Examples: 'Was fighting with flexbox alignment. `items-center justify-between` solved it in 5 seconds', 'Discovered `space-y-4` yesterday. Deleted 20 lines of margin CSS', 'TIL: `prose` class makes my blog posts look decent without trying'",
+    tailwind_tip: "Write a complete tweet about a modern Tailwind v4+ tips. Focus on modern features, new utilities, or v4 improvements. Migrating from v3 to v4 is also a good route. Naturally mention Rails UI or component-driven rails development if relevant. Avoid marketing speak. Sound like you're sharing a quick win. Under 200 chars. Examples: 'Container queries in Tailwind v4 are wild. `@container (min-width: 20rem)` for component-based responsive design', 'Tailwind v4 CSS-first approach is so much cleaner. No more config file bloat', 'New `size-*` utilities beat `w-* h-*` for square elements. Much cleaner'",
 
-    ui_insight: "Share a UI realization like you just had an 'aha' moment. Be specific about user behavior you observed. Avoid design jargon. Sound like you learned something from real users. Under 180 chars. Examples: 'Watched users struggle with our form. Inline errors > alert boxes', 'Users ignored our fancy sidebar. Put key stuff in the header instead', 'Loading spinners feel slow. Skeleton screens make it seem faster'",
+    ui_insight: "Write a complete tweet about a UI realization like you just had an 'aha' moment. Be specific about user behavior you observed. Naturally mention Rails UI if relevant. Avoid design jargon. Under 200 chars. Example: 'Loading spinners feel slow. Skeleton screens make it seem faster.'",
 
-    building_public: "Share an honest moment from building your product. Be vulnerable about mistakes or surprises. Avoid startup clichés. Sound tired but determined. Under 180 chars. Examples: 'Spent 3 days on perfect animations. Users care more about fast load times', 'Thought my feature was brilliant. 5 users tested it. 5 users confused by it', 'Shipped a broken search. Fixed it in 2 hours. Nobody even noticed'",
+    building_public: "Write a complete tweet about an honest moment from building your product. Be vulnerable about mistakes or surprises. Naturally mention Rails UI if relevant. Avoid startup clichés. Sound tired but determined. Under 200 chars. Examples: 'Spent 3 days on perfect animations. Users care more about fast load times', 'Thought my feature was brilliant. 5 users tested it. 5 users confused by it', 'Shipped a broken search for Rails UI. Fixed it in 2 hours. Nobody even noticed'",
 
-    rails_8_feature: "Share excitement about Rails 8 like you just tried something new. Be specific about your setup or what changed. Avoid hype words. Sound like you're recommending to a friend. Under 180 chars. Examples: 'Tried Solid Queue today. Deleted my Redis config. One less thing to worry about', 'Rails 8 auth is stupid simple. Generated working login in 30 seconds', 'Kamal deployed my app faster than I deploy to Heroku. Wild'",
+    rails_8_feature: "Write a complete tweet about Ruby on Rails 8+ features. Be specific about your setup or what changed. Naturally mention Rails UI if relevant. Avoid hype words. Sound like you're recommending to a friend. Under 200 chars. Examples: 'Tried Solid Queue today. Deleted my Redis config. One less thing to worry about', 'Rails 8 auth is stupid simple. Generated working login in 30 seconds', 'Kamal deployed my app faster than I deploy to Heroku. Wild'",
 
-    stimulus_component: "Share excitement about a RailsUI Stimulus component like you just used it. Be specific about which component (clipboard, modal, dropdown, toast, etc.) and what problem it solved. Sound like you're recommending to a dev friend. Under 180 chars. Examples: 'Used the Rails UI modal component. Focus trapping just works', 'Rails UI clipboard component saved me writing custom copy code', 'Their dropdown handles keyboard nav perfectly'",
+    stimulus_component: "Write a complete tweet about a railsui-stimulus component. Be specific about which component (clipboard, modal, dropdown, toast, etc.) and what problem it solved. Sound like you're recommending to a dev friend. Recommend the components to simplify development with Rails. Under 200 chars. Examples: 'Used the Rails UI modal component. Focus trapping just works.', 'Rails UI clipboard component saved me writing custom copy code', 'Their dropdown handles keyboard nav perfectly. No more custom JS headaches'",
 
-    icon_gem: "Share a tip about the RailsUI Icon gem like you just discovered something useful. Be specific about heroicons, variants, or custom paths. Sound like you're sharing a quick win. Under 180 chars. Examples: 'RailsUI Icon gem renders heroicons inline. No more asset hassles', 'Love the variant support. Solid, outline, mini, micro all work', 'Custom icon paths let me use my own SVGs easily'"
+    icon_gem: "Write a complete tweet about the railsui_icon gem like you just discovered something useful. Be specific about heroicons, variants, or custom paths. Sound like you're sharing a quick win. Under 200 chars. Examples: 'railsui_icon gem renders heroicons inline. No more asset hassles', 'Love the variant support in railsui_icon. Solid, outline, mini, micro all work', 'Custom icon paths let me use my own SVGs easily. Game changer for my workflow'"
   }
 
   AI_RESPONSE_TEMPLATES = {
     rails_tip: [
-      "AI_CONTENT_PLACEHOLDER\n\nJust tried this on Rails UI. Works like a charm",
-      "TIL: AI_CONTENT_PLACEHOLDER\n\nWish I knew this months ago",
-      "AI_CONTENT_PLACEHOLDER\n\nThis is why I love Rails so much",
-      "AI_CONTENT_PLACEHOLDER\n\nAlready using this everywhere in Rails UI",
-      "AI_CONTENT_PLACEHOLDER\n\nMy new favorite Rails trick"
+      "AI_CONTENT_PLACEHOLDER",
+      "TIL: AI_CONTENT_PLACEHOLDER",
+      "Rails tip: AI_CONTENT_PLACEHOLDER",
+      "AI_CONTENT_PLACEHOLDER 🚀",
+      "Just discovered: AI_CONTENT_PLACEHOLDER",
+      "AI_CONTENT_PLACEHOLDER",
+      "AI_CONTENT_PLACEHOLDER"
     ],
     tailwind_tip: [
-      "AI_CONTENT_PLACEHOLDER\n\nUsing this in all my Rails UI components now",
-      "AI_CONTENT_PLACEHOLDER\n\nMakes my CSS so much cleaner",
-      "AI_CONTENT_PLACEHOLDER\n\nThis combo makes components look way better ✨"
+      "AI_CONTENT_PLACEHOLDER",
+      "CSS tip: AI_CONTENT_PLACEHOLDER",
+      "AI_CONTENT_PLACEHOLDER",
+      "Tailwind moment: AI_CONTENT_PLACEHOLDER",
+      "AI_CONTENT_PLACEHOLDER Using this everywhere.",
+      "AI_CONTENT_PLACEHOLDER Game changer."
     ],
     ui_insight: [
-      "AI_CONTENT_PLACEHOLDER\n\nChanged how I approach every Rails UI design",
-      "AI_CONTENT_PLACEHOLDER\n\nThis thinking transformed my components",
-      "AI_CONTENT_PLACEHOLDER\n\nLearned this building Rails UI",
-      "AI_CONTENT_PLACEHOLDER\n\nWhy I rebuilt half my design system"
+      "AI_CONTENT_PLACEHOLDER",
+      "UX insight: AI_CONTENT_PLACEHOLDER",
+      "AI_CONTENT_PLACEHOLDER",
+      "Design realization: AI_CONTENT_PLACEHOLDER",
+      "AI_CONTENT_PLACEHOLDER This changed how I build Rails UI.",
+      "AI_CONTENT_PLACEHOLDER"
     ],
     building_public: [
+      "AI_CONTENT_PLACEHOLDER",
       "Building Rails UI: AI_CONTENT_PLACEHOLDER",
-      "AI_CONTENT_PLACEHOLDER\n\nThe reality of shipping solo 🛠️",
-      "AI_CONTENT_PLACEHOLDER\n\nLearned this the hard way",
-      "AI_CONTENT_PLACEHOLDER\n\nNo one warns you about this part"
+      "AI_CONTENT_PLACEHOLDER 🛠️",
+      "Solo dev life: AI_CONTENT_PLACEHOLDER",
+      "AI_CONTENT_PLACEHOLDER The reality of shipping products.",
+      "AI_CONTENT_PLACEHOLDER Nobody talks about this part."
     ],
     rails_8_feature: [
-      "AI_CONTENT_PLACEHOLDER\n\nLoving this in my Rails UI setup",
-      "AI_CONTENT_PLACEHOLDER\n\nRails is wild",
-      "AI_CONTENT_PLACEHOLDER\n\nThis is exactly what I needed",
-      "AI_CONTENT_PLACEHOLDER\n\nWhy I'm excited about Rails"
+      "AI_CONTENT_PLACEHOLDER",
+      "Rails: AI_CONTENT_PLACEHOLDER",
+      "AI_CONTENT_PLACEHOLDER 🎉",
+      "AI_CONTENT_PLACEHOLDER Already using this in Rails UI.",
+      "AI_CONTENT_PLACEHOLDER Rails is incredible.",
+      "AI_CONTENT_PLACEHOLDER This is exactly what I needed."
     ],
     stimulus_component: [
-      "AI_CONTENT_PLACEHOLDER\n\nRails UI Stimulus components are so well built",
-      "AI_CONTENT_PLACEHOLDER\n\nNo more writing custom JavaScript for this",
-      "AI_CONTENT_PLACEHOLDER\n\nThis railsui-stimulus component is perfect",
-      "AI_CONTENT_PLACEHOLDER\n\nSaved me hours of JavaScript debugging"
+      "AI_CONTENT_PLACEHOLDER",
+      "AI_CONTENT_PLACEHOLDER",
+      "AI_CONTENT_PLACEHOLDER 🎯",
+      "AI_CONTENT_PLACEHOLDER Rails UI Stimulus components are solid.",
+      "AI_CONTENT_PLACEHOLDER No more custom JS for this.",
+      "AI_CONTENT_PLACEHOLDER These components just work."
     ],
     icon_gem: [
-      "AI_CONTENT_PLACEHOLDER\n\nRailsUI Icon gem makes this trivial",
-      "AI_CONTENT_PLACEHOLDER\n\nNo more SVG hunting for icons",
-      "AI_CONTENT_PLACEHOLDER\n\nHeroicons integration is seamless",
-      "AI_CONTENT_PLACEHOLDER\n\nWhy I love the railsui_icon gem"
+      "AI_CONTENT_PLACEHOLDER",
+      "Icon tip: AI_CONTENT_PLACEHOLDER",
+      "AI_CONTENT_PLACEHOLDER 🎨",
+      "AI_CONTENT_PLACEHOLDER railsui_icon gem is so handy.",
+      "AI_CONTENT_PLACEHOLDER Heroicons made easy.",
+      "AI_CONTENT_PLACEHOLDER No more SVG hunting."
     ]
   }
 
@@ -213,7 +229,7 @@ class AutoPoster
           messages: [
             {
               role: "system",
-              content: "You are a tired but passionate Rails developer sharing quick thoughts with other devs. Write like you're texting a friend, not writing marketing copy. Use simple words. Be specific about actual problems you solved. Avoid: 'game changer', 'leverage', 'seamless', 'streamline', 'elevate', 'boost', 'harness', 'unlock', 'empower', 'robust', 'scalable', 'cutting-edge'. Include mild frustration or excitement about concrete things. Sound human, not like an AI trying to sound human. Avoid emojis or being annoying with punctuation."
+              content: "You are a passionate senior Rails, JavaScript, and Tailwind CSS developer sharing quick thoughts with other devs about new and existing features of the framework. You authored a project called Rails UI, railsui-stimulus, and railsui_icon which all work together to provide real-world professional design for Ruby on Rails developers. Write like you're texting a friend, not writing marketing copy. Use simple words. Be specific about actual problems you solved. For Tailwind tips, focus on v4+ features, modern CSS, new utilities, not old patterns. Avoid: 'game changer', 'leverage', 'seamless', 'streamline', 'elevate', 'boost', 'harness', 'unlock', 'empower', 'robust', 'scalable', 'cutting-edge'. Include frustration or excitement about concrete things. Sound human, not like an AI trying to sound human. No emojis or dumb punctuation. Avoid ':' colon patterns in sentences or titles. Avoid em or en dashses. 200 characters or less."
             },
             {
               role: "user",
@@ -241,16 +257,15 @@ class AutoPoster
   end
 
   def generate_post
-    # Choose content type
-    content_type = AI_RESPONSE_TEMPLATES.keys.sample
+    # Choose content type with weighted selection (favor Rails and UI tips)
+    content_type = weighted_content_type_selection
 
     # Try AI generation first
     ai_content = generate_ai_content(content_type)
 
     if ai_content && !ai_content.empty?
-      # Use AI-generated content
-      template = AI_RESPONSE_TEMPLATES[content_type].sample
-      formatted_post = template.gsub('AI_CONTENT_PLACEHOLDER', ai_content)
+      # Use AI-generated content directly (it's already a complete tweet)
+      formatted_post = ai_content
       source = "AI"
     else
       # Fall back to preset content
@@ -282,6 +297,39 @@ class AutoPoster
 
     puts "📝 Generated using: #{source}" if ENV['DEBUG']
     formatted_post
+  end
+
+  def weighted_content_type_selection
+    # Weight Rails and UI tips more heavily for organic feel
+    weighted_types = [
+      # Rails tips (40% weight - 20 entries)
+      :rails_tip, :rails_tip, :rails_tip, :rails_tip, :rails_tip,
+      :rails_tip, :rails_tip, :rails_tip, :rails_tip, :rails_tip,
+      :rails_tip, :rails_tip, :rails_tip, :rails_tip, :rails_tip,
+      :rails_tip, :rails_tip, :rails_tip, :rails_tip, :rails_tip,
+
+      # UI insights (24% weight - 12 entries)
+      :ui_insight, :ui_insight, :ui_insight, :ui_insight, :ui_insight, :ui_insight,
+      :ui_insight, :ui_insight, :ui_insight, :ui_insight, :ui_insight, :ui_insight,
+
+      # Tailwind tips (16% weight - 8 entries)
+      :tailwind_tip, :tailwind_tip, :tailwind_tip, :tailwind_tip,
+      :tailwind_tip, :tailwind_tip, :tailwind_tip, :tailwind_tip,
+
+      # Rails 8 features (10% weight - 5 entries)
+      :rails_8_feature, :rails_8_feature, :rails_8_feature, :rails_8_feature, :rails_8_feature,
+
+      # Building public (6% weight - 3 entries)
+      :building_public, :building_public, :building_public,
+
+      # Stimulus components (2% weight - 1 entry)
+      :stimulus_component,
+
+      # Icon gem (2% weight - 1 entry)
+      :icon_gem
+    ]
+
+    weighted_types.sample
   end
 
   def should_post_today?
@@ -399,6 +447,38 @@ class AutoPoster
       end
     end
   end
+
+  def test_distribution
+    puts "📊 Testing weighted content distribution:"
+    puts "=" * 45
+
+    # Run 1000 selections to get distribution
+    results = Hash.new(0)
+    1000.times do
+      content_type = weighted_content_type_selection
+      results[content_type] += 1
+    end
+
+    # Calculate percentages and sort by frequency
+    total = results.values.sum
+    sorted_results = results.sort_by { |k, v| -v }
+
+    puts "Content Type Distribution (1000 samples):"
+    puts "-" * 45
+    sorted_results.each do |type, count|
+      percentage = (count.to_f / total * 100).round(1)
+      puts "#{type.to_s.ljust(20)} #{count.to_s.rjust(4)} (#{percentage}%)"
+    end
+
+    puts "\nExpected weights:"
+    puts "rails_tip:         ~40%"
+    puts "ui_insight:        ~25%"
+    puts "tailwind_tip:      ~15%"
+    puts "rails_8_feature:   ~10%"
+    puts "building_public:   ~5%"
+    puts "stimulus_component: ~3%"
+    puts "icon_gem:          ~2%"
+  end
 end
 
 # Command line interface
@@ -414,12 +494,15 @@ if __FILE__ == $0
     poster.post_to_x
   when 'test-ai'
     poster.test_ai
+  when 'test-distribution'
+    poster.test_distribution
   else
     puts "Usage:"
-    puts "  ruby auto_poster.rb demo     # Show what would be posted"
-    puts "  ruby auto_poster.rb status   # Show posting status"
-    puts "  ruby auto_poster.rb post     # Post if it's time"
-    puts "  ruby auto_poster.rb test-ai  # Test AI generation"
+    puts "  ruby auto_poster.rb demo              # Show what would be posted"
+    puts "  ruby auto_poster.rb status            # Show posting status"
+    puts "  ruby auto_poster.rb post              # Post if it's time"
+    puts "  ruby auto_poster.rb test-ai           # Test AI generation"
+    puts "  ruby auto_poster.rb test-distribution # Test content type distribution"
     puts ""
     puts "Running demo by default..."
     poster.demo_run
