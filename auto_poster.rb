@@ -11,23 +11,39 @@ class AutoPoster
     {
       type: :rails_tip,
       templates: [
-        "CONTENT_PLACEHOLDER\n\nJust used this pattern in my latest railsui.com component 🚀",
-        "Rails tip: CONTENT_PLACEHOLDER\n\nSaved me hours while building railsui.com templates",
+        "CONTENT_PLACEHOLDER\n\nJust used this pattern in my latest Rails UI component 🚀",
+        "Rails tip: CONTENT_PLACEHOLDER\n\nSaved me hours while building Rails UI templates and components",
         "CONTENT_PLACEHOLDER\n\nThis is why I love Rails development so much"
       ]
     },
     {
       type: :tailwind_tip,
       templates: [
-        "Tailwind discovery: CONTENT_PLACEHOLDER\n\nUsing this in all my railsui.com components now",
-        "CONTENT_PLACEHOLDER\n\nGame changer for my railsui.com design system"
+        "Tailwind discovery: CONTENT_PLACEHOLDER\n\nUsing this in all my Rails UI components now",
+        "CONTENT_PLACEHOLDER\n\nGame changer for my Rails UI design system"
       ]
     },
     {
       type: :ui_insight,
       templates: [
-        "UI realization: CONTENT_PLACEHOLDER\n\nChanged how I approach every railsui.com design",
+        "CONTENT_PLACEHOLDER\n\nChanged how I approach every Rails UI design",
         "CONTENT_PLACEHOLDER\n\nThis thinking transformed my railsui.com components"
+      ]
+    },
+    {
+      type: :building_public,
+      templates: [
+        "CONTENT_PLACEHOLDER",
+        "CONTENT_PLACEHOLDER\n\nThe reality of shipping as a solo dev 🛠️",
+        "Product lesson: CONTENT_PLACEHOLDER\n\nLearned this the hard way"
+      ]
+    },
+    {
+      type: :rails_8_feature,
+      templates: [
+        "Rails 8: CONTENT_PLACEHOLDER\n\nAlready loving this in my railsui.com setup",
+        "CONTENT_PLACEHOLDER\n\nRails 8 is changing how I build everything",
+        "Rails 8 feature: CONTENT_PLACEHOLDER\n\nExactly what I needed"
       ]
     }
   ]
@@ -47,6 +63,18 @@ class AutoPoster
       "White space isn't empty space. It's a design element that guides attention",
       "Users scan in F-patterns. Put important stuff top-left and down the left edge",
       "Loading states prevent perceived slowness. Show something immediately"
+    ],
+    building_public: [
+      "Spent 4 hours perfecting a button component. Details compound",
+      "User feedback beats my assumptions every time. Always test ideas first",
+      "Shipping broken beats perfect unshipped. You can't improve what's not live",
+      "Building in public keeps me accountable. Harder to quit when people watch"
+    ],
+    rails_8_feature: [
+      "Solid Queue eliminates Redis for background jobs. One less service to manage",
+      "Rails 8's authentication generator creates secure auth in seconds",
+      "Kamal deployment is a game changer. Docker to production in one command",
+      "Rails 8's built-in rate limiting protects apps without external gems"
     ]
   }
 

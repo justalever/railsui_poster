@@ -4,7 +4,7 @@ ruby '3.4.1'
 
 gem 'x'
 gem 'dotenv'
-gem 'openai'
+gem 'ruby-openai'
 
 # Development and debugging
 group :development do
