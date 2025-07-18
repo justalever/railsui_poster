@@ -11,22 +11,22 @@ class AutoPoster
     {
       type: :rails_tip,
       templates: [
-        "CONTENT_PLACEHOLDER\n\nJust used this pattern in my latest Rails UI component 🚀",
-        "Rails tip: CONTENT_PLACEHOLDER\n\nSaved me hours while building Rails UI templates and components",
+        "CONTENT_PLACEHOLDER\n\nJust used this pattern in my latest railsui.com component 🚀",
+        "Rails tip: CONTENT_PLACEHOLDER\n\nSaved me hours while building railsui.com templates",
         "CONTENT_PLACEHOLDER\n\nThis is why I love Rails development so much"
       ]
     },
     {
       type: :tailwind_tip,
       templates: [
-        "Tailwind discovery: CONTENT_PLACEHOLDER\n\nUsing this in all my Rails UI components now",
-        "CONTENT_PLACEHOLDER\n\nGame changer for my Rails UI design system"
+        "Tailwind discovery: CONTENT_PLACEHOLDER\n\nUsing this in all my railsui.com components now",
+        "CONTENT_PLACEHOLDER\n\nGame changer for my railsui.com design system"
       ]
     },
     {
       type: :ui_insight,
       templates: [
-        "CONTENT_PLACEHOLDER\n\nChanged how I approach every Rails UI design",
+        "UI realization: CONTENT_PLACEHOLDER\n\nChanged how I approach every railsui.com design",
         "CONTENT_PLACEHOLDER\n\nThis thinking transformed my railsui.com components"
       ]
     },
@@ -80,47 +80,47 @@ class AutoPoster
 
   # AI prompts for different content types
   AI_PROMPTS = {
-    rails_tip: "You are a Rails developer building railsui.com. Write a short, practical Rails tip in first person. Focus on Rails 8 features, development patterns, or time-saving techniques. Keep it under 200 chars. Sound like a real developer sharing something they just discovered. Examples: 'Rails 8's Solid Queue eliminates Redis for background jobs', 'Use `&.` safe navigation everywhere', 'Turbo 8 morphing makes updates feel instant'",
+    rails_tip: "Write a casual Rails tip like you're texting a dev friend. Be specific about a real problem you solved. Avoid: 'game changer', 'boost', 'leverage', 'seamless', 'streamline', 'elevate'. Use simple words. Sound frustrated or excited about something concrete. Under 180 chars. Examples: 'Spent 2 hours debugging N+1 queries. `includes` fixed it instantly', 'Rails 8 auth generator saved my weekend. No more Devise config hell', 'Finally figured out Turbo morphing. My forms feel snappy now'",
 
-    tailwind_tip: "You are a developer building railsui.com components. Write a short, practical Tailwind CSS tip in first person. Focus on utility classes, responsive design, or modern CSS patterns. Keep it under 200 chars. Sound like a real developer sharing a discovery. Examples: 'Use `space-y-4` instead of individual margins', 'Combine `flex items-center justify-between` for perfect layouts', 'Use `prose max-w-none` for blog content'",
+    tailwind_tip: "Write a Tailwind tip like you just discovered something cool while coding. Be specific about what you were building. Avoid marketing speak. Sound like you're sharing a quick win. Under 180 chars. Examples: 'Was fighting with flexbox alignment. `items-center justify-between` solved it in 5 seconds', 'Discovered `space-y-4` yesterday. Deleted 20 lines of margin CSS', 'TIL: `prose` class makes my blog posts look decent without trying'",
 
-    ui_insight: "You are a developer building railsui.com. Write a short UI/UX insight in first person. Focus on design principles, user behavior, or interface patterns. Keep it under 200 chars. Sound like a real developer sharing a realization. Examples: 'White space isn't empty space. It's a design element', 'Users scan in F-patterns', 'Loading states prevent perceived slowness'",
+    ui_insight: "Share a UI realization like you just had an 'aha' moment. Be specific about user behavior you observed. Avoid design jargon. Sound like you learned something from real users. Under 180 chars. Examples: 'Watched users struggle with our form. Inline errors > alert boxes', 'Users ignored our fancy sidebar. Put key stuff in the header instead', 'Loading spinners feel slow. Skeleton screens make it seem faster'",
 
-    building_public: "You are a solo developer building railsui.com. Write a short insight about building products in public in first person. Focus on honest experiences, lessons learned, or startup realities. Keep it under 200 chars. Sound authentic and human. Examples: 'Spent 4 hours perfecting a button component. Details compound', 'User feedback beats my assumptions every time', 'Shipping broken beats perfect unshipped'",
+    building_public: "Share an honest moment from building your product. Be vulnerable about mistakes or surprises. Avoid startup clichés. Sound tired but determined. Under 180 chars. Examples: 'Spent 3 days on perfect animations. Users care more about fast load times', 'Thought my feature was brilliant. 5 users tested it. 5 users confused by it', 'Shipped a broken search. Fixed it in 2 hours. Nobody even noticed'",
 
-    rails_8_feature: "You are a Rails developer excited about Rails 8. Write a short insight about a Rails 8 feature in first person. Focus on Solid Queue, Kamal, Propshaft, built-in auth, or other Rails 8 improvements. Keep it under 200 chars. Sound like a developer who's actually using these features. Examples: 'Solid Queue eliminates Redis for background jobs', 'Kamal deployment is a game changer', 'Rails 8's authentication generator creates secure auth in seconds'"
+    rails_8_feature: "Share excitement about Rails 8 like you just tried something new. Be specific about your setup or what changed. Avoid hype words. Sound like you're recommending to a friend. Under 180 chars. Examples: 'Tried Solid Queue today. Deleted my Redis config. One less thing to worry about', 'Rails 8 auth is stupid simple. Generated working login in 30 seconds', 'Kamal deployed my app faster than I deploy to Heroku. Wild'"
   }
 
   AI_RESPONSE_TEMPLATES = {
     rails_tip: [
-      "AI_CONTENT_PLACEHOLDER\n\nJust implemented this in my railsui.com setup 🚀",
-      "Rails discovery: AI_CONTENT_PLACEHOLDER\n\nWish I knew this sooner for railsui.com",
-      "AI_CONTENT_PLACEHOLDER\n\nThis is why I love Rails 8 development",
-      "Found this gem: AI_CONTENT_PLACEHOLDER\n\nAlready using it in railsui.com",
-      "AI_CONTENT_PLACEHOLDER\n\nMy new go-to pattern"
+      "AI_CONTENT_PLACEHOLDER\n\nJust tried this on railsui.com. Works like a charm",
+      "TIL: AI_CONTENT_PLACEHOLDER\n\nWish I knew this months ago",
+      "AI_CONTENT_PLACEHOLDER\n\nThis is why I love Rails so much",
+      "AI_CONTENT_PLACEHOLDER\n\nAlready using this everywhere in railsui.com",
+      "AI_CONTENT_PLACEHOLDER\n\nMy new favorite Rails trick"
     ],
     tailwind_tip: [
-      "CSS realization: AI_CONTENT_PLACEHOLDER\n\nUsing this in all my railsui.com components now",
-      "AI_CONTENT_PLACEHOLDER\n\nGame changer for my design system",
-      "Tailwind moment: AI_CONTENT_PLACEHOLDER\n\nWhy didn't I know this earlier?",
-      "AI_CONTENT_PLACEHOLDER\n\nThis combo makes railsui.com components so much cleaner ✨"
+      "AI_CONTENT_PLACEHOLDER\n\nUsing this in all my railsui.com components now",
+      "AI_CONTENT_PLACEHOLDER\n\nMakes my CSS so much cleaner",
+      "AI_CONTENT_PLACEHOLDER\n\nWhy didn't I think of this earlier?",
+      "AI_CONTENT_PLACEHOLDER\n\nThis combo makes railsui.com components look way better ✨"
     ],
     ui_insight: [
-      "UX insight: AI_CONTENT_PLACEHOLDER\n\nChanged how I approach every railsui.com design",
+      "AI_CONTENT_PLACEHOLDER\n\nChanged how I approach every railsui.com design",
       "AI_CONTENT_PLACEHOLDER\n\nThis thinking transformed my components",
-      "Design truth: AI_CONTENT_PLACEHOLDER\n\nLearned this building railsui.com",
+      "AI_CONTENT_PLACEHOLDER\n\nLearned this building railsui.com",
       "AI_CONTENT_PLACEHOLDER\n\nWhy I rebuilt half my design system"
     ],
     building_public: [
       "Building railsui.com: AI_CONTENT_PLACEHOLDER",
-      "AI_CONTENT_PLACEHOLDER\n\nThe reality of shipping as a solo dev 🛠️",
-      "Product lesson: AI_CONTENT_PLACEHOLDER\n\nLearned this the hard way",
-      "AI_CONTENT_PLACEHOLDER\n\nNo one talks about this part of building"
+      "AI_CONTENT_PLACEHOLDER\n\nThe reality of shipping solo 🛠️",
+      "AI_CONTENT_PLACEHOLDER\n\nLearned this the hard way",
+      "AI_CONTENT_PLACEHOLDER\n\nNo one warns you about this part"
     ],
     rails_8_feature: [
-      "Rails 8: AI_CONTENT_PLACEHOLDER\n\nAlready loving this in my railsui.com setup",
-      "AI_CONTENT_PLACEHOLDER\n\nRails 8 is changing how I build everything",
-      "Rails 8 gem: AI_CONTENT_PLACEHOLDER\n\nExactly what I needed",
+      "AI_CONTENT_PLACEHOLDER\n\nLoving this in my railsui.com setup",
+      "AI_CONTENT_PLACEHOLDER\n\nRails 8 is wild",
+      "AI_CONTENT_PLACEHOLDER\n\nThis is exactly what I needed",
       "AI_CONTENT_PLACEHOLDER\n\nWhy I'm excited about Rails 8"
     ]
   }
@@ -170,15 +170,17 @@ class AutoPoster
           messages: [
             {
               role: "system",
-              content: "You are an experienced Rails developer who builds and shares practical development insights. Always respond in first person with authentic developer voice. Be concise, practical, and enthusiastic about Rails 8 and modern web development."
+              content: "You are a tired but passionate Rails developer sharing quick thoughts with other devs. Write like you're texting a friend, not writing marketing copy. Use simple words. Be specific about actual problems you solved. Avoid: 'game changer', 'leverage', 'seamless', 'streamline', 'elevate', 'boost', 'harness', 'unlock', 'empower', 'robust', 'scalable', 'cutting-edge'. Include mild frustration or excitement about concrete things. Sound human, not like an AI trying to sound human."
             },
             {
               role: "user",
               content: AI_PROMPTS[content_type]
             }
           ],
-          max_tokens: 100,
-          temperature: 0.8
+          max_tokens: 120,
+          temperature: 1.1,
+          frequency_penalty: 0.3,
+          presence_penalty: 0.2
         }
       )
 
@@ -216,7 +218,7 @@ class AutoPoster
         formatted_post = template.gsub('CONTENT_PLACEHOLDER', content)
         source = "Fallback"
       else
-        formatted_post = "Rails 8 is amazing for building modern web apps!\n\nLiving it at railsui.com 🚀"
+        formatted_post = "Rails 8 is amazing for building modern web apps! 🚀"
         source = "Default"
       end
     end
