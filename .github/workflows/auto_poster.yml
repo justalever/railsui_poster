@@ -1,0 +1,74 @@
+name: Auto Poster
+
+on:
+  schedule:
+    # Run twice daily at 9 AM and 5 PM UTC
+    - cron: "0 9,17 * * *"
+  workflow_dispatch: # Allow manual triggering
+
+permissions:
+  contents: write # Required to commit and push changes
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Fetch full history for proper git operations
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.2"
+          bundler-cache: true
+
+      - name: Install dependencies
+        run: |
+          gem install bundler
+          bundle install
+
+      - name: Create initial state files if they don't exist
+        run: |
+          touch posting_schedule.json posted_content.log
+          if [ ! -s posting_schedule.json ]; then
+            echo '{}' > posting_schedule.json
+          fi
+
+      - name: Run auto poster
+        env:
+          X_API_KEY: ${{ secrets.X_API_KEY }}
+          X_API_KEY_SECRET: ${{ secrets.X_API_KEY_SECRET }}
+          X_ACCESS_TOKEN: ${{ secrets.X_ACCESS_TOKEN }}
+          X_ACCESS_TOKEN_SECRET: ${{ secrets.X_ACCESS_TOKEN_SECRET }}
+        run: |
+          echo "Running auto poster..."
+          ruby auto_poster.rb post
+          echo "Auto poster completed"
+
+      - name: Check for changes
+        id: check_changes
+        run: |
+          if git diff --quiet posting_schedule.json posted_content.log; then
+            echo "changes=false" >> $GITHUB_OUTPUT
+          else
+            echo "changes=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Commit and push changes
+        if: steps.check_changes.outputs.changes == 'true'
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action Bot"
+          git add posting_schedule.json posted_content.log
+          git commit -m "Update posting schedule and logs [skip ci]"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Log workflow completion
+        run: |
+          echo "Workflow completed successfully"
+          echo "Files updated: ${{ steps.check_changes.outputs.changes }}"
